@@ -10,7 +10,11 @@ def create_app(config_class=Config):
     #init extension
     init_db(app)
     
-#---------blueprints------------
+    # Register blueprints
+    from routes.pokemon_routes import pokemon_bp 
+    app.register_blueprint(pokemon_bp, url_prefix='/api/pokemon')
+    
+#---------routes------------
     @app.route('/health', methods=['GET'])
     def health_check():
         return jsonify({"status": "healthy",
@@ -54,4 +58,4 @@ def create_app(config_class=Config):
 if __name__ == '__main__':
     app = create_app()
     print(f"Pokemon List: {app.config['POKEMON_LIST']}")
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5050)
