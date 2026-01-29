@@ -14,12 +14,6 @@ pokemon_bp = Blueprint('pokemon', __name__)
 def get_all_pokemon():
     """
     Get all Pokemon.
-    
-    Query params:
-        limit (int): Max results (default: 100)
-    
-    Returns:
-        200: List of Pokemon
     """
     try:
         limit = request.args.get('limit', 100, type=int)
@@ -44,10 +38,6 @@ def get_all_pokemon():
 def get_pokemon_by_id(pokemon_id):
     """
     Get Pokemon by ID.
-    
-    Returns:
-        200: Pokemon data
-        404: Not found
     """
     service = PokemonService()
     pokemon = service.get_pokemon_by_id(pokemon_id)
@@ -68,10 +58,6 @@ def get_pokemon_by_id(pokemon_id):
 def get_pokemon_by_name(name):
     """
     Get Pokemon by name.
-    
-    Returns:
-        200: Pokemon data
-        404: Not found
     """
     service = PokemonService()
     pokemon = service.get_pokemon_by_name(name)
@@ -92,14 +78,6 @@ def get_pokemon_by_name(name):
 def fetch_pokemon(name):
     """
     Fetch Pokemon from PokeAPI and save to database.
-    
-    This is the main endpoint to populate your database on-demand.
-    
-    Returns:
-        201: Pokemon created
-        200: Pokemon already exists
-        400: Invalid name
-        404: Not found in PokeAPI
     """
     service = PokemonService()
     pokemon = service.fetch_and_save_pokemon(name)
@@ -121,15 +99,6 @@ def fetch_pokemon(name):
 def fetch_pokemon_batch():
     """
     Fetch multiple Pokemon from PokeAPI.
-    
-    Body:
-        {
-            "pokemon": ["pikachu", "charizard", "bulbasaur"]
-        }
-    
-    Returns:
-        200: Batch fetch results
-        400: Invalid request
     """
     data = request.get_json()
     
