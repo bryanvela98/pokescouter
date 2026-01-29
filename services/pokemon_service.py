@@ -35,14 +35,7 @@ class PokemonService:
     def fetch_and_save_pokemon(self, pokemon_name: str) -> Optional[Pokemon]:
         """
         Fetch from PokeAPI and save to database.
-        
-        Steps:
-        1. Sanitize input
-        2. Check if exists
-        3. Fetch from API
-        4. Transform data
-        5. Validate data
-        6. Save to DB
+    
         """
         # s 1: Sanitize
         sanitized = InputValidator.sanitize_name(pokemon_name)
@@ -72,7 +65,7 @@ class PokemonService:
         #s 5: Validate
         is_valid, errors = DataValidator.validate_pokemon_data(transformed)
         if not is_valid:
-            print(f"❌ Validation failed for {sanitized}:")
+            print(f"Validation failed for {sanitized}:")
             for error in errors:
                 print(f"   - {error}")
             return None
@@ -101,12 +94,12 @@ class PokemonService:
         db.session.add(pokemon)
         db.session.flush()  # Get ID
         
-        # Add types (many-to-many)
+        # Add types
         for type_data in data.get('types', []):
             pokemon_type = PokemonType.get_or_create(type_data['name'])
             pokemon.types.append(pokemon_type)
         
-        # Add stats (one-to-many)
+        # Add stats
         for stat_data in data.get('stats', []):
             stat = PokemonStat(
                 pokemon_id=pokemon.id,
@@ -115,7 +108,7 @@ class PokemonService:
             )
             db.session.add(stat)
         
-        # Add abilities (one-to-many)
+        # Add abilities
         for ability_data in data.get('abilities', []):
             ability = PokemonAbility(
                 pokemon_id=pokemon.id,

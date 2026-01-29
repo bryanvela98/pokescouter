@@ -5,7 +5,6 @@ Created: 2026-01-29
 """
 from flask import Blueprint, jsonify, request
 from services.pokemon_service import PokemonService
-from services.validators import InputValidator
 
 # Create Blueprint
 pokemon_bp = Blueprint('pokemon', __name__)
@@ -72,24 +71,15 @@ def get_pokemon_by_name(name):
     
     Returns:
         200: Pokemon data
-        400: Invalid name
         404: Not found
     """
-    # Sanitize input
-    sanitized = InputValidator.sanitize_name(name)
-    if not sanitized:
-        return jsonify({
-            'success': False,
-            'error': 'Invalid Pokemon name format'
-        }), 400
-    
     service = PokemonService()
-    pokemon = service.get_pokemon_by_name(sanitized)
+    pokemon = service.get_pokemon_by_name(name)
     
     if not pokemon:
         return jsonify({
             'success': False,
-            'error': f'Pokemon "{sanitized}" not found in database'
+            'error': f'Pokemon "{name}" not found in database'
         }), 404
     
     return jsonify({
@@ -111,33 +101,20 @@ def fetch_pokemon(name):
         400: Invalid name
         404: Not found in PokeAPI
     """
-    # Sanitize input
-    sanitized = InputValidator.sanitize_name(name)
-    if not sanitized:
-        return jsonify({
-            'success': False,
-            'error': 'Invalid Pokemon name format'
-        }), 400
-    
     service = PokemonService()
-    pokemon = service.fetch_and_save_pokemon(sanitized)
+    pokemon = service.fetch_and_save_pokemon(name)
     
     if not pokemon:
         return jsonify({
             'success': False,
-            'error': f'Failed to fetch "{sanitized}" from PokeAPI'
+            'error': f'Failed to fetch "{name}" from PokeAPI'
         }), 404
-    
-    # Check if it was newly created or already existed
-    # (fetch_and_save_pokemon returns existing if found)
-    existing = service.get_pokemon_by_name(sanitized)
-    status_code = 200 if existing else 201
     
     return jsonify({
         'success': True,
-        'message': f'Pokemon "{sanitized}" fetched successfully',
+        'message': f'Pokemon "{pokemon.name}" fetched successfully',
         'data': pokemon.to_dict()
-    }), status_code
+    }), 201
 
 
 @pokemon_bp.route('/fetch/batch', methods=['POST'])

@@ -16,29 +16,29 @@ class Pokemon(BaseModel):
     __tablename__ = 'pokemon'
     
     # Basic Information
-    name = Column(String(100), unique=True, nullable=False, index=True)
-    pokedex_number = Column(Integer, unique=True, nullable=False, index=True)
-    height = Column(Integer, nullable=False)  # in decimetres
-    weight = Column(Integer, nullable=False)  # in hectograms
-    
+    name = db.Column(String(100), unique=True, nullable=False, index=True)
+    pokedex_number = db.Column(Integer, unique=True, nullable=False, index=True)
+    height = db.Column(Integer, nullable=False)  # in decimetres
+    weight = db.Column(Integer, nullable=False)  # in hectograms
+
     # Sprite URLs
-    sprite_front_default = Column(String(500), nullable=True)
-    sprite_front_shiny = Column(String(500), nullable=True)
-    
+    sprite_front_default = db.Column(String(500), nullable=True)
+    sprite_front_shiny = db.Column(String(500), nullable=True)
+
     # Relationships
-    types = relationship(
+    types = db.relationship(
         'PokemonType',
         secondary=pokemon_types,
         back_populates='pokemon',
         lazy='joined'
     )
-    stats = relationship(
+    stats = db.relationship(
         'PokemonStat',
         back_populates='pokemon',
         cascade='all, delete-orphan',
         lazy='joined'
     )
-    abilities = relationship(
+    abilities = db.relationship(
         'PokemonAbility',
         back_populates='pokemon',
         cascade='all, delete-orphan',
