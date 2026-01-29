@@ -1,20 +1,5 @@
 # PokeScouter
 
-## Table of Contents
-
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [Project Structure](#project-structure)
-- [Installation](#installation)
-- [Configuration](#configuration)
-- [Usage](#usage)
-- [API Endpoints](#api-endpoints)
-- [Database Schema](#database-schema)
-- [Development](#development)
-- [Testing](#testing)
-- [Contributing](#contributing)
-- [License](#license)
-
 ## Features
 
 - Fetch Pokemon data from PokeAPI on-demand
@@ -185,23 +170,6 @@ curl http://localhost:5050/api/pokemon/name/pikachu
 curl -X POST http://localhost:5050/api/pokemon/fetch/batch \
   -H "Content-Type: application/json" \
   -d '{"pokemon": ["charizard", "bulbasaur", "squirtle"]}'
-```
-
-
-### Quick Examples
-
-**Fetch single Pokemon:**
-
-```bash
-curl -X POST http://localhost:5050/api/pokemon/fetch/pikachu
-```
-
-**Fetch multiple Pokemon:**
-
-```bash
-curl -X POST http://localhost:5050/api/pokemon/fetch/batch \
-  -H "Content-Type: application/json" \
-  -d '{"pokemon": ["pikachu", "charizard"]}'
 ```
 
 For detailed API documentation including request/response schemas and all parameters, see [API Resume](docs/API_Resume.md).

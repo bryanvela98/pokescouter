@@ -16,5 +16,5 @@ MANIFEST
 venv/
 env/
 .venv/
-.env˚
+.env
 .db
