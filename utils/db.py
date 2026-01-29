@@ -17,7 +17,7 @@ def init_db(app):
         # Create all tables
         db.create_all()
         
-        print("✅ Database initialized successfully!")
+        print("Database initialized successfully!")
 
 
 def reset_db(app):
@@ -25,4 +25,4 @@ def reset_db(app):
     with app.app_context():
         db.drop_all()
         db.create_all()
-        print("✅ Database reset successfully!")
+        print("Database reset successfully!")
